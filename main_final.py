@@ -312,7 +312,7 @@ def upload_to_db():
     # Get the image URL
     LIFETIME = 7 * 24 * 60 * 60
 
-    expiration_time = datetime.timedelta(seconds=LIFETIME)
+    expiration_time = timedelta(seconds=LIFETIME)
     signed_url = blob.generate_signed_url(
         version='v4',
         expiration=expiration_time,
