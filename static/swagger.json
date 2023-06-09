@@ -1,0 +1,669 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Skinny API Doc",
+    "description": "This is Skinny API Documentation",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "image processing",
+      "description": "Image processing related operations"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Authenticate corresponding user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "auth",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Hi There!"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "john123"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Unauthorized"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create new user account",
+        "operationId": "register",
+        "requestBody": {
+          "description": "User data payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/User"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "You are registered successfully"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Bad Request - already logged in"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "login",
+        "requestBody": {
+          "description": "User data payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "You are logged in successfully"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Token"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Bad Request - already logged in"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs out current logged in user session",
+        "operationId": "logout",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "You are logged out successfully"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Bad Request - log in first"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predict": {
+      "post": {
+        "tags": [
+          "image processing"
+        ],
+        "summary": "Predict corresponding image attached by user",
+        "operationId": "predict",
+        "requestBody": {
+          "description": "User data payload",
+          "content": {
+            "image/*": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Sukses"
+                        },
+                        "Penanganan": {
+                          "$ref": "#/components/schemas/Penanganan"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Tidak ada file"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/uploadToDb": {
+      "post": {
+        "tags": [
+          "image processing"
+        ],
+        "summary": "Save corresponding predicted image",
+        "operationId": "uploadToDb",
+        "requestBody": {
+          "description": "Image to be uploaded",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "data": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "file",
+                  "data",
+                  "username",
+                  "class"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Berhasil menambah ke dalam Bookmark"
+                        },
+                        "History": {
+                          "$ref": "#/components/schemas/History"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getDetail/{username}": {
+      "get": {
+        "tags": [
+          "image processing"
+        ],
+        "summary": "Get history by username",
+        "operationId": "getDetail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Data Berhasil Didapatkan"
+                        },
+                        "Daftar History": {
+                          "$ref": "#/components/schemas/DaftarHistory"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Data tidak ditemukan"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "john123"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345"
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "xxxxxxxxxx"
+          }
+        },
+        "xml": {
+          "name": "token"
+        }
+      },
+      "Penanganan": {
+        "type": "object",
+        "properties": {
+          "Terdeteksi Jenis": {
+            "type": "string",
+            "example": "eksim"
+          },
+          "Deskripsi": {
+            "type": "string",
+            "example": "lorem ipsum"
+          },
+          "Penanganan yang dapat dilakukan": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Judul Penanganan": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Class terprediksi": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "History": {
+        "type": "object",
+        "properties": {
+          "Terdeteksi Jenis": {
+            "type": "string",
+            "example": "http://xxx"
+          },
+          "Class": {
+            "type": "string",
+            "example": "jerawat"
+          },
+          "id gambar": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "DaftarHistory": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "object",
+                  "properties": {
+                    "signed_url": {
+                      "type": "string",
+                      "example": "http://xxx"
+                    },
+                    "class_Predicted": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "Penanganan": {
+                  "type": "object",
+                  "properties": {
+                    "Terdeteksi Jenis": {
+                      "type": "string",
+                      "example": "eksim"
+                    },
+                    "Deskripsi": {
+                      "type": "string",
+                      "example": "lorem ipsum"
+                    },
+                    "Penanganan yang dapat dilakukan": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "Judul Penanganan": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "Error": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "Error": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
