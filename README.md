@@ -1,5 +1,3 @@
-# bangkit-capstone-project-skinny-app
-Ini adalah Respository project capstone Bangkit, Skinny App
 # Skinny
 
 Skinny REST-API
@@ -30,11 +28,32 @@ Skinny REST-API
     ```
     
     Response:
-
+    Condition: OK
     ```
     {
         "Error": false,
         "message": "You are registered successfully"
+    }
+    ```
+    Condition: If already account
+    ```
+    {
+        "Error": True,
+        "message": "you already have an account"
+    }
+    ```
+    Condition: If user fill data not correct
+    ```
+    {
+        "Error": True,
+        "message": "please fill the form correctly"
+    }
+    ```
+    Condition: If user already logged in
+    ```
+    {
+        "Error": True,
+        "message": "already logged in"
     }
     ```
 
@@ -54,6 +73,7 @@ Skinny REST-API
     ```
    
     Response:
+    Condition: OK
 
     ```
     {
@@ -62,6 +82,34 @@ Skinny REST-API
         "Your Username": "SkinnyTester",
         "message": "You are logged in successfully",
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiU2tpbm55VGVzdGVyIiwiZXhwaXJhdGlvbiI6IjIwMjQtMDYtMTQgMTM6NDU6MjEuMjcxMTYyIn0.lxeyKvwq94fZNzoRXMFNgeFKcAQqY1GVzOZyj_SH5fc"
+    }
+    ```
+    Condition: If user already logged in
+    ```
+    {
+        "Error": True,
+        "message": "already logged in"
+    }
+    ```
+    Condition: If username not found
+    ```
+    {
+        "Error": True,
+        "message": "username is not found"
+    }
+    ```
+    Condition: If wrong password
+    ```
+    {
+        "Error": True,
+        "message": "invalid password"
+    }
+    ```
+    Condition: If user fill data not correct
+    ```
+    {
+        "Error": True,
+        "message": "please fill the form correctly"
     }
     ```
 
@@ -80,11 +128,18 @@ Skinny REST-API
     ```
    
     Response:
-
+    Condition: OK
     ```
     {
         "error": false,
         "message": "Logout Sukses"
+    }
+    ```
+    Condition: if user not logged in yet
+    ```
+    {
+        "error": True,
+        "message": "Logout Gagal, login terlebih dahulu"
     }
     ```
 
@@ -106,6 +161,7 @@ Skinny REST-API
     ```
    
     Response:
+    Condition: OK
 
     ```
     {
@@ -134,6 +190,21 @@ Skinny REST-API
         "message": "Sukses"
     }
     ```
+    Condition: Invalid Token
+    ```
+    {
+        "error": True,
+        "message": "Token tidak valid"
+    }
+    ```
+    Condition: If user not attach files
+    ```
+    {
+        "error": True,
+        "message": "Tidak ada file"
+    }
+    ```
+    
 - ### Upload to Database
 
   `https://skinny-aflmdbaorq-uc.a.run.app/uploadToDb`
@@ -152,7 +223,7 @@ Skinny REST-API
     ```
    
     Response:
-
+    Condition: OK
     ```
     {
         "Error": false,
@@ -162,6 +233,13 @@ Skinny REST-API
             "id gambar": 5
         },
         "message": "Berhasil menambah ke dalam Bookmark"
+    }
+    ```
+    Condition: Username not found
+    ```
+    {
+        "error": True,
+        "message": "Username tidak ditemukan"
     }
     ```
 - ### Get History by User
@@ -177,7 +255,7 @@ Skinny REST-API
     ```
    
     Response:
-
+    Condition: OK
     ```
     {
         "Daftar History": [
@@ -210,5 +288,12 @@ Skinny REST-API
         ],
         "Error": false,
         "message": "Data Berhasil Didapatkan"
+    }
+    ```
+    Condition: if the user has never saved history
+    ```
+    {
+        "error": True,
+        "message": "Data tidak ditemukan"
     }
     ```
