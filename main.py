@@ -132,9 +132,19 @@ def register():
                     sql_values = (_name, _username, passhash)
                     cursor.execute(sql, sql_values)
                     db_conn.commit()
+                    token = jwt.encode({
+                            'user': _username,
+                            'expiration': str(datetime.utcnow() + timedelta(days=365))
+                    },
+                    app.config['SECRET_KEY'])
+
+                    sql = "INSERT INTO token (username, token) VALUES (%s, %s) ON DUPLICATE KEY UPDATE token=%s"
+                    sql_values = (_username, token, token)
+                    cursor.execute(sql, sql_values)
+                    db_conn.commit()
                     cursor.close()
 
-                    return jsonify({'Error': False, 'message': 'You are registered successfully'})
+                    return jsonify({'Error': False, 'message': 'You are registered successfully','token': token})
 
             else:
                 resp = jsonify({'Error': True, 'message': 'invalid credentials'})
@@ -164,7 +174,22 @@ def login():
             if _username and _password:
                 _username = re.sub(r'"', '', _username)
                 _password = re.sub(r'"', '', _password)
+                
+
+                db_conn = None
+                while db_conn is None:
+                    db_conn = check_mysql_connection()
+                    if db_conn is None:
+                        print("Waiting for MySQL connection...")
+                        time.sleep(1)
                 cursor = db_conn.cursor()
+                sql = "SELECT token FROM token WHERE username=%s"
+                sql_where = (_username,)
+
+                cursor.execute(sql, sql_where)
+                row = cursor.fetchone()
+                token = row[0]
+                
 
                 sql = "SELECT * FROM user WHERE username=%s"
                 sql_values = (_username,)
@@ -176,18 +201,7 @@ def login():
                     username = row[1]
                     password = row[2]
                     if check_password_hash(password, _password):
-                        session['username'] = username
-
-                        token = jwt.encode({
-                            'user': _username,
-                            'expiration': str(datetime.utcnow() + timedelta(days=365))
-                        },
-                            app.config['SECRET_KEY'])
-
-                        sql = "INSERT INTO token (username, token) VALUES (%s, %s) ON DUPLICATE KEY UPDATE token=%s"
-                        sql_values = (username, token, token)
-                        cursor.execute(sql, sql_values)
-                        db_conn.commit()
+                        session['username'] = username    
                         cursor.close()
                         return jsonify({'Error': False, 'message': 'You are logged in successfully', 'Your Username': username,'Your Name': name,'token': token})
 
