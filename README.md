@@ -71,8 +71,6 @@ How to Duplicate
 
 `git clone -b Mobile-App https://github.com/MuhammadRafliGimnastiar/bangkit-capstone-project-skinny-app.git`
 
-2. 
-3. 
 </details>
 
 <details open>
