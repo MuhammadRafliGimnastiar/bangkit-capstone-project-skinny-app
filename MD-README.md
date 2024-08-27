@@ -34,10 +34,5 @@ by C23-PS212
 
 ## Apps Interface
 
-Insert gif or link to demo
-
-
-## Documentation
-
 ![Image](https://github.com/MuhammadRafliGimnastiar/bangkit-capstone-project-skinny-app/blob/Mobile-App/SKINNY%20APPS.png)
 
