@@ -90,6 +90,6 @@ Documentation
   </li>
   <li>
     <h3>Mobile Development</h3>
-    <a href="https://github.com/MuhammadRafliGimnastiar/bangkit-capstone-project-skinny-app/blob/Mobile-App/README.md">MD Doc</a>
+    <a href="https://github.com/MuhammadRafliGimnastiar/bangkit-capstone-project-skinny-app/blob/main/MD-README.md">MD Doc</a>
   </li>
 </ul>
